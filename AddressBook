@@ -1,70 +1,40 @@
-package com.munoz;
+package munoz.com;
 
-//time spent 9:20-10:15, 10:22-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-public class AddressBook implements AddressBookPlan {
-
-	static int ID = 0;
-	static boolean again = true;
-
-	static ArrayList<Address> addresses = new ArrayList<>();
-	static Scanner sc = new Scanner(System.in);
-
-	public static void startAddBook() {
+public class AddBook {
+	ArrayList <Address> adds = new ArrayList<>();
+	Scanner sc = new Scanner(System.in);
+	int ID = 0;
+	public void start() {
+		boolean again = true;
 		do {
 			System.out.println("Select an item from the menu");
 			System.out.println("1: Create Address\n2: List Addresses\n3: Update Address\n4: "
-					+ "Delete Address\n5: Search for Address\n6: Sort Addresses\n"
-					+ "0: Exit");
-//"7: WriteToFile\n8: Read from File\n
+					+ "Delete Address\n5: Search for Address\n6: Sort Addresses\n" + "0: Exit");
 			int menu = sc.nextInt();
 
 			switch (menu) {
 			case 1:
-				createAddress();
+				create();
 				break;
 			case 2:
-				readAddress();
+				read();
 				break;
 			case 3:
-				updateAddress();
+				update();
 				break;
 			case 4:
-				deleteAddress();
+				delete();
 				break;
 			case 5:
-				searchAddress();
+				search();
 				break;
 			case 6:
-				sortAddress();
+				sort();
 				break;
-//			case 7:
-//				try {
-//					writeToFile();
-//				} catch (IOException e) {
-//					System.out.println("uh-oh! Cant find it!");
-//					startAddBook();
-//					e.printStackTrace();
-//				}
-//				break;
-//			case 8:
-//				try {
-//					readFromFile();
-//				} catch (FileNotFoundException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				break;
 			case 0:
 				again = false;
 				System.exit(0);
@@ -72,131 +42,102 @@ public class AddressBook implements AddressBookPlan {
 		} while (again = true);
 	}
 
-	public static void createAddress() {
-		String fname;
+	public void create() {
 		String lname;
-		String streetAddress;
+		String street;
 		String city;
 		String state;
 		int zip;
-		System.out.println("Enter First Name: ");
-		fname = sc.next();
+		ID = ID+1;
 		System.out.println("Enter Last Name: ");
 		lname = sc.next();
 		System.out.println("Enter Street Address: ");
-		streetAddress = sc.next();
+		street = sc.next();
 		System.out.println("Enter City: ");
 		city = sc.next();
 		System.out.println("Enter State: ");
 		state = sc.next();
 		System.out.println("Enter Zipcode: ");
 		zip = sc.nextInt();
-		ID = ID + 1;
-		addresses.add(new Address(ID, fname, lname, streetAddress, city, state, zip));
-		System.out.println("Would you like to add another, list addresses?");
-		// if else
-		readAddress();
-		// if want to exit ?
-
-		startAddBook();
+		adds.add(new Address(ID, lname, street, city, state, zip));
 	}
 
-	public static void readAddress() {
-		System.out.println("+++Addresses+++");
-		for (int i = 0; i < addresses.size(); i++) {
-			System.out.println(addresses.get(i));
+	public void read() {
+		for (int i=0; i<adds.size(); i++) {
+			System.out.println(adds.get(i));
 		}
-
 	}
 
-	public static void updateAddress() {
-		System.out.println("*****************************");
-		System.out.println("*********Edit Address********");
-		System.out.println("*****************************");
+	public void update() {
+		read();
 		System.out.println("Which would you like to edit?");
-		readAddress();
-		int updateId = sc.nextInt() - 1;
-		if (addresses.get(updateId) != null) {
-			String fname;
+		int update = sc.nextInt()-1;
+		if(adds.get(update) != null) {
 			String lname;
-			String streetAddress;
+			String street;
 			String city;
 			String state;
 			int zip;
-			System.out.println("Enter First Name: ");
-			fname = sc.next();
+
 			System.out.println("Enter Last Name: ");
 			lname = sc.next();
 			System.out.println("Enter Street Address: ");
-			streetAddress = sc.next();
+			street = sc.next();
 			System.out.println("Enter City: ");
 			city = sc.next();
 			System.out.println("Enter State: ");
 			state = sc.next();
 			System.out.println("Enter Zipcode: ");
 			zip = sc.nextInt();
-			addresses.get(updateId).setFname(fname);
-			addresses.get(updateId).setLname(lname);
-			addresses.get(updateId).setStreetAddress(streetAddress);
-			addresses.get(updateId).setCity(city);
-			addresses.get(updateId).setState(state);
-			addresses.get(updateId).setZip(zip);
+			adds.get(update).setLname(lname);
+			adds.get(update).setStreet(street);
+			adds.get(update).setCity(city);
+			adds.get(update).setState(state);
+			adds.get(update).setZip(zip);
 			System.out.println("Would you like to edit another? 1 for yes, 0 for no.");
 			int keepGoing = sc.nextInt();
 			if (keepGoing == 1) {
-				updateAddress();
+				update();
 			} else
-				startAddBook();
+				start();
 		}
 
-	}
-
-	public static void deleteAddress() {
-		boolean removeMore = true;
-		System.out.println("****************************");
-		System.out.println("******Remove an Address******");
-		System.out.println("****************************");
-		System.out.println("which do you want to remove?");
-		readAddress();
-		int deleteId = sc.nextInt() - 1;
-		System.out.println(addresses.remove(deleteId));
-	}
-
-	public static void searchAddress() {
-		System.out.println("What would you like to search by...");
-		System.out.println("1) First Name");
-		System.out.println("2) Last Name");
-
-		int searchFor = sc.nextInt();
-		switch (searchFor) {
-		case 1:
-			System.out.println("Please enter the first name");
-			String searchFName = sc.next();
-			for (int j = 0; j < addresses.size(); j++) {
-				if (addresses.get(j).getFname().contentEquals(searchFName)) {
-					System.out.println(addresses.get(j));
-				}
-			}
-			break;
-		case 2:
-			System.out.println("Please enter the last name");
-			String searchLName = sc.next();
-			for (int j = 0; j < addresses.size(); j++) {
-				if (addresses.get(j).getLname().contentEquals(searchLName)) {
-					System.out.println(addresses.get(j));
-				}
-			}
-			break;
 		}
+
+	public void delete() {		
+		read();
+		System.out.println("Which would you like to delete?");
+		int delete = sc.nextInt()-1;
+		System.out.println(adds.remove(delete) + " has been removed.");
+		System.out.println("Would you like to delete another? 1 for yes, 0 for no.");
+		int keepGoing = sc.nextInt();
+		if (keepGoing == 1) {
+			delete();
+		} else
+			start();
+	}
+	public void search() {
+		System.out.println("Please enter the Last Name: ");
+		String search = sc.next();
+		for(int j = 0; j<adds.size(); j++) {
+			if (search.contentEquals(adds.get(j).getLname())) {
+				System.out.println("We found it!" + adds.get(j));
+			}
+		}
+		System.out.println("Would you like to search for another? 1 for yes, 0 for no.");
+		int keepGoing = sc.nextInt();
+		if (keepGoing == 1) {
+			search();
+		} else
+			start();
 	}
 
-	public static void sortAddress() {
+	public void sort() {
+		System.out.println("Sort by Last name: ");
+		Collections.sort(adds, (b1, b2) -> b1.getLname().compareTo(b2.getLname()));
 		
-		System.out.println("Search by Last name: ");
-		Collections.sort(addresses, (b1, b2) -> b1.getLname().compareTo(b2.getLname()));
-
-		for(Address adr:addresses) {
+		for(Address adr:adds) {
 			System.out.println(adr);
 		}
 	}
-	}
+}
