@@ -1,0 +1,21 @@
+package com.munoz;
+
+import java.util.Scanner;
+
+public class Driver {
+
+	static Scanner sc = new Scanner(System.in);
+	
+	public static void main(String[]args) {
+		System.out.println("Welcome! Would you like to get started?\nType 1 for yes, 0 for no");
+		int opt = sc.nextInt();
+		if (opt == 1) {
+			AddressBook.startAddBook();
+		}
+
+		if (opt == 0) {
+			System.exit(0);
+		}
+	}
+	
+}
