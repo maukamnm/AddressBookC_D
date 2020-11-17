@@ -1,12 +1,15 @@
-package com.munoz;
+package munoz.com;
 import java.util.Comparator;
-public class comparator  implements Comparator<Address>{
-	@Override   
+public class Sort implements Comparator <Address>{
+
+	@Override
 	public int compare(Address o1, Address o2) {
-	        return o1.getLname().compareTo(o2.getLname());
-	    }
+		return o1.getLname().compareTo(o2.getLname());
+	}
+	
 	@Override
 	public String toString() {
 		return "Sort";
 	}
+	
 }
